@@ -10,10 +10,8 @@ public class Node : MonoBehaviour
     {
         foreach (Node n in ConnectsTo)
         {
-            Gizmos.color = Color.red;
-            //Gizmos.DrawLine(transform.position, n.transform.position);
+            Gizmos.color = Color.green;
             Gizmos.DrawRay(transform.position, (n.transform.position - transform.position).normalized * 2);
         }
     }
-
 }

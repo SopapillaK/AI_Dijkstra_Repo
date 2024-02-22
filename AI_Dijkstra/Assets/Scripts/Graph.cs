@@ -1,13 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Graph
 {
     List<Connection> mConnections;
 
-    // an array of connections outgoing from the given node
     public List<Connection> getConnections(Node fromNode)
     {
         List<Connection> connections = new List<Connection>();
@@ -18,15 +16,13 @@ public class Graph
                 connections.Add(c);
             }
         }
+
         return connections;
     }
 
     public void Build()
     {
-        // find all nodes in scene
-        // iterate over the nodes
-        //   create connection objects,
-        //   stuff them in mConnections
+        //find all nodes in scene and iterate over the nodes. Create connection objects and stuff them in mConnections
         mConnections = new List<Connection>();
 
         Node[] nodes = GameObject.FindObjectsOfType<Node>();
@@ -54,6 +50,7 @@ public class Connection
         this.fromNode = fromNode;
         this.toNode = toNode;
     }
+
     public float getCost()
     {
         return cost;

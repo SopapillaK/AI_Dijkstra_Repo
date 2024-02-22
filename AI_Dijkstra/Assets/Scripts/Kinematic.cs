@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,7 +33,7 @@ public class Kinematic : MonoBehaviour
             angularVelocity = 0.0f;
         }
 
-        // update my position and rotation
+        // update my position and rotation - Millington p. 58, lines 7-9
         this.transform.position += linearVelocity * Time.deltaTime;
         if (Mathf.Abs(angularVelocity) > 0.01f)
         {
@@ -41,7 +41,8 @@ public class Kinematic : MonoBehaviour
             this.transform.eulerAngles += v * Time.deltaTime;
         }
 
-        // update linear and angular velocities
+        // update linear and angular velocities - I might be accelerating or decelerating, etc.
+        // Millington p. 58, lines 11-13
         if (steeringUpdate != null)
         {
             linearVelocity += steeringUpdate.linear * Time.deltaTime;
@@ -49,6 +50,8 @@ public class Kinematic : MonoBehaviour
         }
 
         // check for speeding and clip
+        // Millington p.58, lines 15-18
+        // note that Millington's pseudocode on p.58 does not clip angular velocity, but we do here
         if (linearVelocity.magnitude > maxSpeed)
         {
             linearVelocity.Normalize();

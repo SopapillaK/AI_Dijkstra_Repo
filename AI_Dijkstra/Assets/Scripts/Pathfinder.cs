@@ -1,21 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
-public class Pathfinder : Kinematic
+public class PathFinder : Kinematic
 {
     public Node start;
     public Node goal;
     Graph myGraph;
 
-    FollowPath myMoveType;
+    FollowingPath myMoveType;
     LookWhereGoing myRotateType;
 
-    //public GameObject[] myPath = new GameObject[4];
     GameObject[] myPath;
 
-    // Start is called before the first frame update
     void Start()
     {
         myRotateType = new LookWhereGoing();
@@ -24,24 +21,23 @@ public class Pathfinder : Kinematic
 
         Graph myGraph = new Graph();
         myGraph.Build();
-        List<Connection> path = Dijkstra.pathfind(myGraph, start, goal);
-        // path is a list of connections - convert this to gameobjects for the FollowPath steering behavior
+        List<Connection> path = Dijkstra.pathFind(myGraph, start, goal);
+
         myPath = new GameObject[path.Count + 1];
         int i = 0;
         foreach (Connection c in path)
         {
-            Debug.Log("from " + c.getFromNode() + " to " + c.getToNode() + " @" + c.getCost());
             myPath[i] = c.getFromNode().gameObject;
             i++;
         }
+
         myPath[i] = goal.gameObject;
 
-        myMoveType = new FollowPath();
+        myMoveType = new FollowingPath();
         myMoveType.character = this;
         myMoveType.path = myPath;
     }
 
-    // Update is called once per frame
     protected override void Update()
     {
         steeringUpdate = new SteeringOutput();
@@ -49,5 +45,4 @@ public class Pathfinder : Kinematic
         steeringUpdate.linear = myMoveType.getSteering().linear;
         base.Update();
     }
-
 }
